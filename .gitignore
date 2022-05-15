@@ -1,0 +1,19 @@
+/.data
+
+# Ignore everything in .idea
+**/.idea
+**/.nvmrc
+
+**/*.mo
+**/*.pyo
+**/*.pyc
+**/__pycache__
+**/.sass-cache/
+**/npm-debug.log
+**/yarn-error.log
+**/node_modules/
+**/venv/
+**/.venv
+**/.cache/
+**/.local/
+**/celerybeat-schedule

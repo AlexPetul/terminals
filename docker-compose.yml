@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+    django:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8000:8000"
+        volumes:
+            - "./app:/app"
+        environment:
+            PYTHONUNBUFFERED: 0
+            POSTGRES_HOST: postgres
+            POSTGRES_DB: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        command: python manage.py runserver 0.0.0.0:8000
+        entrypoint: /usr/bin/wait-for-it.sh postgres:5432 -t 60 --
+        depends_on:
+            - postgres
+        networks:
+            - ig_webapp
+
+    postgres:
+        image: postgres:12.0-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        networks:
+            - ig_webapp
+
+    prometheus:
+        image: prom/prometheus
+        volumes:
+            - ./prometheus/:/etc/prometheus/
+            - prometheus_data:/prometheus
+        command:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+        ports:
+            - "9090:9090"
+
+    grafana:
+        image: grafana/grafana
+        ports:
+            - "3000:3000"
+
+networks:
+    ig_webapp:
+        driver: bridge
+
+volumes:
+    postgres_data:
+    prometheus_data:
