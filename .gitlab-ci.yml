@@ -8,18 +8,27 @@ before_script:
 
 stages:
   - test
+  - build
+  - deploy
 
 django:
   stage: test
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  except:
+    - master
   script:
     - echo "Running tests..."
 
 build:
-  stage: test
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  stage: build
+  except:
+    - master
   script:
     - echo "Building..."
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - echo "Deploying..."
