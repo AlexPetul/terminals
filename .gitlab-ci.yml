@@ -4,7 +4,7 @@ services:
   - docker:dind
 
 before_script:
-  - apk add --no-cache git bash python3 py3-pip make docker-compose
+  - apk add --no-cache git bash python3 py3-pip docker-compose
 
 stages:
   - test
@@ -13,16 +13,13 @@ django:
   stage: test
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
   script:
     - docker-compose run --rm django py.test --cov --cov-report term-missing
 
 build:
   stage: test
-  except:
-    - template
-    - master
-    - live
   script:
     - echo "building..."
-    - ./scripts/ci.sh live build-only $CI_COMMIT_BRANCH
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
