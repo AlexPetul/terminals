@@ -12,14 +12,13 @@ stages:
 django:
   stage: test
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
-  variables:
-    EDIT_SETTINGS: 'no'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   script:
     - docker-compose run --rm django py.test --cov --cov-report term-missing
 
 build:
   stage: test
-  when: on_success
   except:
     - template
     - master
