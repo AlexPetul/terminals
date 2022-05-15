@@ -14,14 +14,16 @@ stages:
 django:
   stage: test
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
-  except:
+  only:
+    - develop
     - master
   script:
     - echo "Running tests..."
 
 build:
   stage: build
-  except:
+  only:
+    - develop
     - master
   script:
     - echo "Building..."
