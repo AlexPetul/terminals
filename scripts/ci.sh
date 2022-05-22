@@ -1,5 +1,5 @@
 function docker_hub_login () {
-  echo "$DOCKER_HUB_PASSWORD" | docker login -u alexpetul --password-stdin
+  docker login -u alexpetul -p "$DOCKER_HUB_PASSWORD"
 }
 
 is_push=$1
