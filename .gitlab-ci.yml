@@ -26,11 +26,11 @@ build:
     - master
   script:
     - echo "Building..."
-    - ./scripts/ci.sh live build-only $CI_COMMIT_BRANCH
+    - ./scripts/ci.sh push
 
 deploy:
   stage: deploy
   rules:
-    - if $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
   script:
     - echo "Deploying..."
