@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from os import environ as env
 from pathlib import Path
 
@@ -24,7 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "drf_yasg",
+    "drf_spectacular",
     "django_prometheus",
     "accounts",
     "cells",
@@ -64,6 +65,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "base.wsgi.application"
 
+APPEND_SLASH = False
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -78,11 +81,25 @@ DATABASES = {
     }
 }
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=20),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
+}
+
+AUTH_USER_MODEL = "accounts.User"
+
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Eform API",
+    "DESCRIPTION": "Documentation",
+    "VERSION": "1.0.0",
+    "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
 }
 
 # Password validation
