@@ -1,4 +1,5 @@
 function docker_hub_login () {
+  echo "$DOCKER_HUB_PASSWORD"
   echo "$DOCKER_HUB_PASSWORD" | docker login --username alexpetul --password-stdin
 }
 
