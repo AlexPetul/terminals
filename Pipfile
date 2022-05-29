@@ -18,6 +18,8 @@ drf-spectacular = {version = "==0.18.*", index = "pypi"}
 django-prometheus = {version = "==2.2.*", index = "pypi"}
 djangorestframework_simplejwt = {version = "==5.1.*", index = "pypi"}
 django-guardian = {version = "==2.4.*", index = "pypi"}
+pytest = {version = "==7.1.*", index = "pypi"}
+pytest-django = {version = "==4.5.*", index = "pypi"}
 
 [requires]
 python_version = "3.10"

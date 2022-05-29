@@ -26,7 +26,6 @@ build:
     - master
   script:
     - echo "Building..."
-    - echo "$DOCKER_HUB_PASSWORD"
     - ./scripts/ci.sh push
 
 deploy:
