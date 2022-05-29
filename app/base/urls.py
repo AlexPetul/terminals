@@ -9,9 +9,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("django_prometheus.urls")),
     path("api/v1/", include("accounts.urls")),
-    path("api/schema", SpectacularAPIView.as_view(), name="schema"),
-    path("api/v1/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    path("api/v1/redoc", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/schema/swagger", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/schema/redoc", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]
 
 if bool(settings.DEBUG):
