@@ -4,7 +4,7 @@ services:
   - docker:dind
 
 before_script:
-  - apk add --no-cache git bash python3 py3-pip docker-compose
+  - apk add --no-cache bash python3 docker-compose
 
 stages:
   - test
