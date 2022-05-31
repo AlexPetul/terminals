@@ -5,7 +5,7 @@ function docker_hub_login () {
 
 function build () {
   echo "Building backend image"
-  docker build -t "$BACKEND_IMAGE" -f Dockerfile.production .
+  docker build -t "$BACKEND_IMAGE" -f Dockerfile .
   echo "Build backend image complete"
 }
 

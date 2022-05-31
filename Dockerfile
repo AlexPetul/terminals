@@ -1,5 +1,7 @@
 FROM python:3.10-slim
 
+WORKDIR app
+
 COPY ../wait-for-it.sh /usr/bin/
 
 RUN apt-get update \
@@ -16,6 +18,6 @@ COPY Pipfile.lock /
 
 RUN pipenv install --system --ignore-pipfile --dev
 
-WORKDIR app
+COPY . .
 
 CMD python manage.py runserver 0.0.0.0:8000
