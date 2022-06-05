@@ -1,4 +1,5 @@
 import os
+import sys
 from datetime import timedelta
 from os import environ as env
 from pathlib import Path
@@ -78,8 +79,16 @@ DATABASES = {
         "NAME": env.get("POSTGRES_NAME"),
         "USER": env.get("POSTGRES_USER"),
         "PASSWORD": env.get("POSTGRES_PASSWORD"),
-    }
+        "TEST": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        },
+    },
 }
+
+if "test" in sys.argv:
+    DATABASES["default"]["ENGINE"] = "django.db.backends.sqlite3"
+    DATABASES["default"]["NAME"] = ":memory:"
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=20),
@@ -106,18 +115,12 @@ SPECTACULAR_SETTINGS = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", "OPTIONS": {"min_length": 14}},
+    {"NAME": "accounts.validators.NumberValidator"},
+    {"NAME": "accounts.validators.UppercaseValidator"},
+    {"NAME": "accounts.validators.LowercaseValidator"},
+    {"NAME": "accounts.validators.SymbolValidator"},
 ]
 
 # Internationalization
