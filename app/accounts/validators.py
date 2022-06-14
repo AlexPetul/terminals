@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 class NumberValidator:
     def validate(self, password, user=None):
-        if not re.findall("\d", password):
+        if not re.findall(r"\d", password):
             raise ValidationError(
                 "The password must contain at least 1 digit, 0-9.",
                 code="password_no_number",
@@ -39,11 +39,11 @@ class LowercaseValidator:
 
 class SymbolValidator:
     def validate(self, password, user=None):
-        if not re.findall("[()[\]{}|\\`~!@#$%^&*_\-+=;:'\",<>./?]", password):
+        if not re.findall(r"[()[\]{}|\\`~!@#$%^&*_\-+=;:'\",<>./?]", password):
             raise ValidationError(
-                "The password must contain at least 1 symbol: " + "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?",
+                "The password must contain at least 1 symbol: " + r"()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?",
                 code="password_no_symbol",
             )
 
     def get_help_text(self):
-        return "Your password must contain at least 1 symbol: " + "()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?"
+        return "Your password must contain at least 1 symbol: " + r"()[]{}|\`~!@#$%^&*_-+=;:'\",<>./?"
