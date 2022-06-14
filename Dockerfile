@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR app
 
-COPY ../wait-for-it.sh /usr/bin/
+COPY ./wait-for-it.sh /usr/bin/
 
 RUN apt-get update \
     && apt-get upgrade -y \
