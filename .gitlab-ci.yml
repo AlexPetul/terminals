@@ -43,25 +43,6 @@ build:
   only:
     - branches
 
-test:
-  stage: test
-  image: python:3.7-slim
-  before_script:
-    - pip install -Ur requirements.txt
-    - python manage.py migrate
-    - python manage.py collectstatic --noinput
-  script:
-    - python manage.py test
-  services:
-    - postgres:latest
-  only:
-    - branches
-  variables:
-    POSTGRES_ENABLED: "False"
-  except:
-    variables:
-      - $TEST_DISABLED
-
 code_quality:
   stage: test
   image: docker:stable
