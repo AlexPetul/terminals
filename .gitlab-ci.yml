@@ -43,6 +43,21 @@ build:
   only:
     - branches
 
+test:
+  stage: test
+  image: python:3.7-slim
+  script:
+    - echo 123
+  services:
+    - postgres:latest
+  only:
+    - branches
+  variables:
+    POSTGRES_ENABLED: "False"
+  except:
+    variables:
+      - $TEST_DISABLED
+
 code_quality:
   stage: test
   image: docker:stable
