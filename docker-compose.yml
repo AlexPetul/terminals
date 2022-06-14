@@ -46,7 +46,7 @@ services:
     grafana:
         image: grafana/grafana
         volumes:
-            - "./app/.data/grafana:/var/lib/grafana"
+            - "./.data/grafana:/var/lib/grafana"
         ports:
             - "3000:3000"
 

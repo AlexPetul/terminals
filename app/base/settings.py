@@ -1,4 +1,6 @@
 import os
+import sys
+from datetime import timedelta
 from os import environ as env
 from pathlib import Path
 
@@ -24,7 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "drf_yasg",
+    "drf_spectacular",
     "django_prometheus",
     "accounts",
     "cells",
@@ -64,6 +66,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "base.wsgi.application"
 
+APPEND_SLASH = False
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -75,32 +79,48 @@ DATABASES = {
         "NAME": env.get("POSTGRES_NAME"),
         "USER": env.get("POSTGRES_USER"),
         "PASSWORD": env.get("POSTGRES_PASSWORD"),
-    }
+        "TEST": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        },
+    },
 }
 
+if "test" in sys.argv:
+    DATABASES["default"]["ENGINE"] = "django.db.backends.sqlite3"
+    DATABASES["default"]["NAME"] = ":memory:"
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=20),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
+}
+
+AUTH_USER_MODEL = "accounts.User"
+
 REST_FRAMEWORK = {
-    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Eform API",
+    "DESCRIPTION": "Documentation",
+    "VERSION": "1.0.0",
+    "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
 }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", "OPTIONS": {"min_length": 14}},
+    {"NAME": "accounts.validators.NumberValidator"},
+    {"NAME": "accounts.validators.UppercaseValidator"},
+    {"NAME": "accounts.validators.LowercaseValidator"},
+    {"NAME": "accounts.validators.SymbolValidator"},
 ]
 
 # Internationalization
