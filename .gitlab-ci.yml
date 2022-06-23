@@ -27,7 +27,7 @@ django:
     - master
   script:
     - echo "Running tests..."
-    - docker run --rm $BACKEND_IMAGE python -m pytest
+    - ./scripts/ci.sh test
 
 deploy:
   stage: deploy

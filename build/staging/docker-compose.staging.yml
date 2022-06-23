@@ -3,8 +3,9 @@ version: "3.7"
 services:
     django:
         build:
-            context: .
+            context: ../../app
             dockerfile: Dockerfile
+        image: alexpetul/django_terminals
         ports:
             - "8000:8000"
         volumes:

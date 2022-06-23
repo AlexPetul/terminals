@@ -5,13 +5,18 @@ function docker_hub_login () {
 
 function build () {
   echo "Building backend image"
-  docker build -t "$BACKEND_IMAGE" -f Dockerfile.production .
+  docker-compose -f build/staging/docker-compose.staging.yml build --pull --force-rm
   echo "Build backend image complete"
 }
 
 function push() {
   echo "Pushing backend image"
-  docker push "$BACKEND_IMAGE"
+  docker-compose -f build/staging/docker-compose.staging.yml push
+}
+
+function test() {
+    docker-compose -f build/staging/docker-compose.staging.yml pull
+    docker-compose -f build/staging/docker-compose.staging.yml run --rm django python -m pytest
 }
 
 is_push=$1

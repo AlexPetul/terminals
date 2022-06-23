@@ -1,8 +1,8 @@
 FROM python:3.10-slim
 
-WORKDIR app
+WORKDIR /usr/src/app
 
-COPY ./wait-for-it.sh /usr/bin/
+COPY wait-for-it.sh /usr/bin/
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -13,11 +13,11 @@ RUN apt-get update \
 
 RUN pip install -U pipenv==2020.8.13 pip setuptools wheel
 
-COPY Pipfile /
-COPY Pipfile.lock /
+COPY Pipfile .
+COPY Pipfile.lock .
 
 RUN pipenv install --system --ignore-pipfile --dev
 
-COPY . .
+COPY .. .
 
 CMD python manage.py runserver 0.0.0.0:8000
