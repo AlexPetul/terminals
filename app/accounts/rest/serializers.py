@@ -1,8 +1,7 @@
 from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
-from accounts.models import User
+from accounts.models import Team, User
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -20,3 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         exclude = ("password",)
         model = User
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ("id", "name")
+        model = Team

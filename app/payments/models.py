@@ -1,4 +1,7 @@
 from django.db import models
 
+from terminals.models import Terminal
 
-# Create your models here.
+
+class Payment(models.Model):
+    terminal = models.ForeignKey(to=Terminal, on_delete=models.CASCADE)
