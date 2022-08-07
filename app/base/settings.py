@@ -74,7 +74,7 @@ APPEND_SLASH = False
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": "postgres",
+        "HOST": env.get("POSTGRES_HOST"),
         "PORT": 5432,
         "NAME": env.get("POSTGRES_NAME"),
         "USER": env.get("POSTGRES_USER"),

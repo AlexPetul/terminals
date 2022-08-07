@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: terminals-deployment
+spec:
+  replicas: 2
+  selector: # Allow master to manage Pod
+    matchLabels:
+      component: web
+  template: # configuration for every single Pod
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: terminals
+          image: alexpetul/terminals
+          ports:
+            - containerPort: 8000

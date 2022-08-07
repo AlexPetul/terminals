@@ -4,7 +4,7 @@ services:
     django:
         build:
             context: ../../app
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile.production
         image: alexpetul/django_terminals
         ports:
             - "8000:8000"
